@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "generic-job.fullname" . }}-job
+  labels:
+    {{- include "generic-job.labels" . | nindent 4 }}
+spec:
+  template:
+    metadata:
+      labels:
+        {{- include "generic-job.labels" . | nindent 6 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}-job-container
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag}}"
+          {{- with .Values.resources }}
+          resources:
+            {{- toYaml . | nindent 10 }}
+          {{- end }}
+      restartPolicy: {{ .Values.restartPolicy }}
