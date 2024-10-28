@@ -18,7 +18,7 @@ COPY . .
 # Build the app for production
 RUN npm run build
 
-# Step 2: Serve the app using a static server
+# Step 2: Serve the app using Nginx
 FROM nginx:alpine
 
 # Copy the build files from the previous stage
