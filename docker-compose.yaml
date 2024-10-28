@@ -1,0 +1,44 @@
+
+services:
+  frontend:
+    build:
+      context: ./apps/frontend/gbfs-dashboards
+    ports:
+      - "3000:80"  # Map host port 3000 to container port 80
+    depends_on:
+      - api-server  # Ensure backend is started before frontend
+    networks:
+      - app-network
+
+  collector:
+    build:
+      context: ./apps/collector
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017  # Connection string to MongoDB
+    depends_on:
+      - mongo  # Ensure mongo service is started before backend
+    networks:
+      - app-network
+
+  api-server:
+    build:
+      context: ./apps/api-server
+    ports:
+      - "8000:8000"  # Map host port 8000 to container port 8000
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017  # Connection string to MongoDB
+    depends_on:
+      - mongo  # Ensure mongo service is started before backend
+    networks:
+      - app-network
+
+  mongo:
+    image: mongo:latest  # Use the latest MongoDB image
+    ports:
+      - "27017:27017"  # Expose MongoDB port
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
