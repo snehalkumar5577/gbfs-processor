@@ -19,7 +19,7 @@ env:
   CLUSTER_NAME: "dev-aks"
   CHART_PATH: "./helm-charts/generic-app"
   CHART_OVERRIDE_PATH: "./override-files/dev/frontend-override.yaml"
-  BUILD_CONTEXT: "./apps/frontend"
+  BUILD_CONTEXT: "./apps/frontend/gbfs-processor"
 
 jobs:
   buildImage:
