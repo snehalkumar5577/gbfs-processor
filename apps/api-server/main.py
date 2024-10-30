@@ -7,14 +7,20 @@ import os
 
 
 # MongoDB connection
-MONGO_URI = os.getenv("MONGODB_URI", "mongodb://mongo:27017")
-DB_NAME = "gbfs_database"
+MONGODB_HOST = os.getenv("MONGODB_URI", "mongo")
+MONGODB_PORT = 27017
+MONGODB_DB_NAME = "gbfs_database"
 COLLECTION_NAME = "gbfs_collection"
+MONGODB_USER = os.getenv("MONGODB_USERNAME", "root")
+MONGODB_PASSWORD = os.getenv("MONGODB_PASSWORD", "password")
+
+MONGODB_URI = f"mongodb://{MONGODB_USER}:{MONGODB_PASSWORD}@{MONGODB_HOST}:{MONGODB_PORT}/{MONGODB_DB_NAME}?authSource=admin"
+
 
 # Initialize FastAPI and MongoDB client
 app = FastAPI()
-client = AsyncIOMotorClient(MONGO_URI)
-db = client[DB_NAME]
+client = AsyncIOMotorClient(MONGODB_URI)
+db = client[MONGODB_DB_NAME]
 collection = db[COLLECTION_NAME]
 
 # Pydantic Model for the response

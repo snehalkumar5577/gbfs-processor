@@ -105,3 +105,9 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+env: []
+  # - name: ENV_VAR1
+  #   value: "value1"
+  # - name: ENV_VAR2
+  #   value: "value2"

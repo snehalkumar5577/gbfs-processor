@@ -12,7 +12,12 @@ spec:
     spec:
       containers:
         - name: {{ .Chart.Name }}-job-container
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag}}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          env:
+            {{- range .Values.env }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+            {{- end }}
           {{- with .Values.resources }}
           resources:
             {{- toYaml . | nindent 10 }}

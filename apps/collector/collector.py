@@ -5,6 +5,8 @@ from datetime import datetime
 
 config = {
     "MONGO_URI": os.getenv("MONGODB_URI", "mongodb://mongo:27017"),
+    "MONGO_USERNAME": os.getenv("MONGODB_USERNAME", "root"),
+    "MONGO_PASSWORD": os.getenv("MONGODB_PASSWORD", "password"),
     "DB_NAME": "gbfs_database",
     "COLLECTION_NAME": "gbfs_collection",
     "PROVIDERS": {
@@ -14,7 +16,8 @@ config = {
     }
 }
 
-client = MongoClient(config["MONGO_URI"])
+# create mongo client using uri, username and password
+client = MongoClient(config["MONGO_URI"], username=config["MONGO_USERNAME"], password=config["MONGO_PASSWORD"])
 db = client[config["DB_NAME"]]
 collection = db[config["COLLECTION_NAME"]]
 

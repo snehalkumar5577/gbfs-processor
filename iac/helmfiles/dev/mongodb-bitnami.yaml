@@ -8,7 +8,7 @@ helmDefaults:
 
 releases:
   - name: "mongodb-bitnami"
-    namespace: "mongodb"
+    namespace: "default"
     chart: "bitnami/mongodb"
     version: "14.4.2"
     wait: true

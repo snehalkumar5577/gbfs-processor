@@ -15,6 +15,8 @@ services:
       context: ./apps/collector
     environment:
       - MONGODB_URI=mongodb://mongo:27017  # Connection string to MongoDB
+      - MONGO_USER=root
+      - MONGO_PASSWORD=password
     depends_on:
       - mongo  # Ensure mongo service is started before backend
     networks:
@@ -27,6 +29,8 @@ services:
       - "8000:80"  # Map host port 8000 to container port 8000
     environment:
       - MONGODB_URI=mongodb://mongo:27017  # Connection string to MongoDB
+      - MONGO_USER=root
+      - MONGO_PASSWORD=password
     depends_on:
       - mongo  # Ensure mongo service is started before backend
     networks:
@@ -36,6 +40,9 @@ services:
     image: mongo:latest  # Use the latest MongoDB image
     ports:
       - "27017:27017"  # Expose MongoDB port
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
     networks:
       - app-network
 

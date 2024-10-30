@@ -1,1 +1,12 @@
 fullnameOverride: "collector"
+
+env:
+  - name: MONGODB_URI
+    value: "mongodb://mongodb-bitnami:27017"
+  - name: MONGODB_USERNAME
+    value: "admin"
+  - name: MONGODB_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: mongodb-admin-creds
+        key: mongodb-root-password

@@ -26,4 +26,7 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
+env:
+  - name: ENV_VAR1
+    value: "value1"
 
