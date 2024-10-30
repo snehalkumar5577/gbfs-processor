@@ -13,8 +13,8 @@ const Dashboard = () => {
     // Fetch bike availability summary from the backend
     const fetchData = async () => {
       try {
-        console.log("process.env.BACKEND_APP_API_URL", process.env.BACKEND_APP_API_URL);
-        const response = await axios.get(`${process.env.BACKEND_APP_API_URL}/stations/summary`);
+        console.log("process.env.REACT_APP_BACKEND_API_URL", process.env.REACT_APP_BACKEND_API_URL);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/stations/summary`);
         setBikeData(response.data);
         setLoading(false);
       } catch (error) {
