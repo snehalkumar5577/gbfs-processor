@@ -41,3 +41,8 @@ async def get_bike_summary():
     ]
     summary = await collection.aggregate(pipeline).to_list(100)
     return [{"provider": item["_id"], "total_bikes": item["total_bikes"]} for item in summary]
+
+# Health check endpoint
+@app.get("/")
+async def health_check():
+    return {"status": "ok"}

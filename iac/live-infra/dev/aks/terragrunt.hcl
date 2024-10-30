@@ -10,6 +10,10 @@ dependency "resource_group" {
   config_path = "../resource-group"
 }
 
+dependency "acr" {
+  config_path = "../acr"
+}
+
 inputs = {
   cluster_name = "dev-aks"
   kubernetes_version  = "1.29.2"
@@ -31,6 +35,11 @@ inputs = {
   agents_count                 = 1
   enable_auto_scaling          = false
   agents_pool_max_surge        = "10%"
+
+  # ACR integration
+  attached_acr_id_map = {
+    "devregistry1908" = dependency.acr.outputs["acr_id"]
+  }
 
 # Additional node pool configuration
   node_pools = {
