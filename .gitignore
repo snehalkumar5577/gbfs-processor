@@ -1,0 +1,11 @@
+# Local .terraform directories
+**/.terraform/*
+
+# Terragrunt lock files
+**/.terraform.lock.hcl
+
+# terragrunt
+.terragrunt-cache
+**/.terragrunt-cache
+backend.tf
+provider.tf
