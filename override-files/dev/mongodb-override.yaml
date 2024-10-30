@@ -1,0 +1,4 @@
+auth:
+  rootUser: admin
+  rootPassword: "placeholder" # This is not in used as we are using existing secret mentioned below
+  existingSecret: "mongodb-admin-creds"
