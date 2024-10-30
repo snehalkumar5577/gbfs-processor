@@ -24,7 +24,7 @@ services:
     build:
       context: ./apps/api-server
     ports:
-      - "8000:8000"  # Map host port 8000 to container port 8000
+      - "8000:80"  # Map host port 8000 to container port 8000
     environment:
       - MONGODB_URI=mongodb://mongo:27017  # Connection string to MongoDB
     depends_on:
