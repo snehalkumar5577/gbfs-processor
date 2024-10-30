@@ -38,7 +38,7 @@ app.add_middleware(
 )
 
 # Endpoint for bike summary by provider
-@app.get("/stations/summary", response_model=List[ProviderSummary])
+@app.get("/api/stations/summary", response_model=List[ProviderSummary])
 async def get_bike_summary():
     """Aggregates and returns the number of available bikes by provider."""
     pipeline = [
