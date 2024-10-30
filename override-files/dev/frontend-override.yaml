@@ -1,5 +1,5 @@
 fullnameOverride: "frontend"
 
 env:
-  - name: BACKEND_APP_API_URL
+  - name: REACT_APP_BACKEND_API_URL
     value: "http://api-server:80"
