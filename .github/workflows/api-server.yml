@@ -32,20 +32,27 @@
 # For more samples to get started with GitHub Action workflows to deploy to Azure, refer to https://github.com/Azure/actions-workflow-samples
 # For more options with the actions used below please refer to https://github.com/Azure/login
 
-name: Build and deploy an app to AKS with Helm
+name: API Server CI
 
 on:
   push:
-    branches: ["master"]
+    paths:
+      - 'apps/api-server/**'
+    branches:
+      - main
+  pull_request:
+    paths:
+      - 'apps/api-server/**'
   workflow_dispatch:
 
 env:
-  AZURE_CONTAINER_REGISTRY: "devregistry1908.azurecr.io"
+  AZURE_CONTAINER_REGISTRY: "devregistry1908"
   CONTAINER_NAME: "api-server"
   RESOURCE_GROUP: "rg-infra-devops-dev"
   CLUSTER_NAME: "dev-aks"
   CHART_PATH: "./helm-charts/generic-app"
   CHART_OVERRIDE_PATH: "./helm-charts/generic-app/values.yaml"
+  DOCKERFILE_PATH: "./apps/api-server/Dockerfile"
 
 jobs:
   buildImage:
@@ -66,7 +73,7 @@ jobs:
       # Builds and pushes an image up to your Azure Container Registry
       - name: Build and push image to ACR
         run: |
-          az acr build --image ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }} --registry ${{ env.AZURE_CONTAINER_REGISTRY }} -g ${{ env.RESOURCE_GROUP }} .
+          az acr build --image ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }} --registry ${{ env.AZURE_CONTAINER_REGISTRY }} -g ${{ env.RESOURCE_GROUP }} ${{ env.DOCKERFILE_PATH }}
 
   deploy:
     permissions:
@@ -81,11 +88,9 @@ jobs:
 
       # Logs in with your Azure credentials
       - name: Azure login
-        uses: azure/login@v1.4.6
+        uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       # Use kubelogin to configure your kubeconfig for Azure auth
       - name: Set up kubelogin for non-interactive login
