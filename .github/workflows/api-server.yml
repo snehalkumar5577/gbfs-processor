@@ -52,7 +52,7 @@ env:
   CLUSTER_NAME: "dev-aks"
   CHART_PATH: "./helm-charts/generic-app"
   CHART_OVERRIDE_PATH: "./helm-charts/generic-app/values.yaml"
-  DOCKERFILE_PATH: "./apps/api-server/Dockerfile"
+  BUILD_CONTEXT: "./apps/api-server"
 
 jobs:
   buildImage:
@@ -73,7 +73,8 @@ jobs:
       # Builds and pushes an image up to your Azure Container Registry
       - name: Build and push image to ACR
         run: |
-          az acr build --image ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }} --registry ${{ env.AZURE_CONTAINER_REGISTRY }} -g ${{ env.RESOURCE_GROUP }} --file ${{ env.DOCKERFILE_PATH }} .
+          cd ${{ env.BUILD_CONTEXT }}
+          az acr build --image ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }} --registry ${{ env.AZURE_CONTAINER_REGISTRY }} -g ${{ env.RESOURCE_GROUP }} .
 
   deploy:
     permissions:
