@@ -14,7 +14,7 @@ const Dashboard = () => {
     const fetchData = async () => {
       try {
         console.log("process.env.REACT_APP_BACKEND_API_URL", process.env.REACT_APP_BACKEND_API_URL);
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/stations/summary`);
+        const response = await axios.get('/api/stations/summary');
         setBikeData(response.data);
         setLoading(false);
       } catch (error) {
