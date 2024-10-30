@@ -1,14 +1,14 @@
-name: API Server CI
+name: Frontend CI
 
 on:
   push:
     paths:
-      - 'apps/api-server/**'
+      - 'apps/frontend/**'
     branches:
       - main
   pull_request:
     paths:
-      - 'apps/api-server/**'
+      - 'apps/frontend/**'
   workflow_dispatch:
 
 jobs:
@@ -29,7 +29,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker image
-        run: docker build -t devregistry1908.azurecr.io/api-server:${{ env.COMMIT_HASH }} ./apps/api-server
+        run: docker build -t devregistry1908.azurecr.io/frontend:${{ env.COMMIT_HASH }} ./apps/frontend
 
       - name: Push Docker image
-        run: docker push devregistry1908.azurecr.io/api-server:${{ env.COMMIT_HASH }}
+        run: docker push devregistry1908.azurecr.io/frontend:${{ env.COMMIT_HASH }}
