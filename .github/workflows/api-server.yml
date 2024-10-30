@@ -9,6 +9,7 @@ on:
   pull_request:
     paths:
       - 'apps/api-server/**'
+  workflow_dispatch:
 
 jobs:
   build-and-push:
