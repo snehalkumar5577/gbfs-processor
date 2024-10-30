@@ -84,8 +84,8 @@ jobs:
           overrideFiles: ${{ env.CHART_OVERRIDE_PATH }}
           overrides: |
             replicaCount: 1
-            image.repository: devregistry1908.azurecr.io/api-server
-            image.tag: latest
+            image.repository:devregistry1908.azurecr.io/api-server
+            image.tag:latest
           helm-version: "latest"
         id: bake
 
