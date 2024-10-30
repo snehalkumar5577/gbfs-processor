@@ -1,0 +1,21 @@
+repositories:
+  - name: bitnami
+    url: https://charts.bitnami.com/bitnami
+
+helmDefaults:
+  cleanupOnFail: false
+  createNamespace: true
+
+releases:
+  - name: "mongodb-bitnami"
+    namespace: "mongodb"
+    chart: "bitnami/mongodb"
+    version: "14.4.2"
+    wait: true
+
+    values:
+      - 
+        auth:
+          rootUser: admin
+          rootPassword: "placeholder" # This is not in used as we are using existing secret mentioned below
+          existingSecret: "mongodb-admin-creds"

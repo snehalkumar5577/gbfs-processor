@@ -2,8 +2,6 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: {{ include "generic-job.fullname" . }}-job
-  labels:
-    {{- include "generic-job.labels" . | nindent 4 }}
 spec:
   template:
     metadata:
