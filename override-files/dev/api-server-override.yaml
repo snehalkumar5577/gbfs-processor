@@ -1,1 +1,10 @@
 fullnameOverride: "api-server"
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 8000
+readinessProbe:
+  httpGet:
+    path: /health
+    port: 8000
