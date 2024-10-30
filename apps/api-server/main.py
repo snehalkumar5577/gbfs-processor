@@ -7,8 +7,8 @@ import os
 
 
 # MongoDB connection
-MONGODB_HOST = os.getenv("MONGODB_URI", "mongo")
-MONGODB_PORT = 27017
+MONGODB_HOST = os.getenv("MONGODB_HOST", "mongo")
+MONGODB_PORT = "27017"
 MONGODB_DB_NAME = "gbfs_database"
 COLLECTION_NAME = "gbfs_collection"
 MONGODB_USER = os.getenv("MONGODB_USERNAME", "root")

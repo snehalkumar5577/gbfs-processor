@@ -10,8 +10,8 @@ readinessProbe:
     port: 8000
 
 env:
-  - name: MONGODB_URI
-    value: "mongodb://mongodb-bitnami:27017"
+  - name: MONGODB_HOST
+    value: "mongodb-bitnami"
   - name: MONGODB_USERNAME
     value: "admin"
   - name: MONGODB_PASSWORD
