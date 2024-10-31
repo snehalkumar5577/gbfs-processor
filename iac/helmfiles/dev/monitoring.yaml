@@ -1,0 +1,189 @@
+repositories:
+  - name: "prometheus-community"
+    url: "https://prometheus-community.github.io/helm-charts"
+  - name: "grafana"
+    url: "https://grafana.github.io/helm-charts"
+
+helmDefaults:
+  cleanupOnFail: false
+  createNamespace: true
+  wait: true
+
+releases:
+  - name: "prometheus-operator"
+    namespace: "monitoring"
+    chart: "prometheus-community/kube-prometheus-stack"
+    disableValidation: true  # This is needed only for the first time to skip crd validation
+    version: 53.0.0  # You should not upgrade to 54.x.x before considering upgrade in Loki
+
+    values:
+      - defaultRules:
+          rules:
+            windows: false
+        grafana:
+          admin: 
+            existingSecret: grafana-admin-creds
+          grafana.ini:
+            server:
+              root_url: http://localhost:3000/grafana
+          ingress:
+            enabled: false
+            hosts:
+              - dev-gbfs-dashboards.northeurope.cloudapp.azure.com
+            path: /grafana/?(.*)
+            ingressClassName: nginx
+            annotations:
+              nginx.ingress.kubernetes.io/rewrite-target: /$1
+              nginx.ingress.kubernetes.io/use-regex: "true"
+
+          tolerations:
+            - key: "dedicated"
+              operator: "Equal"
+              value: "tooling"
+              effect: "NoSchedule"
+            - key: "kubernetes.azure.com/scalesetpriority"
+              operator: "Equal"
+              value: "spot"
+              effect: "NoSchedule"
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: dedicated
+                        operator: In
+                        values:
+                          - tooling
+
+          additionalDataSources:
+            - name: Loki
+              type: loki
+              access: proxy
+              url: http://loki:3100
+              jsonData:
+                maxLines: 1000
+                timeout: 300s
+          defaultDashboardsTimezone: browser
+          defaultDashboardsEditable: false
+
+        ### below affinity config is to run pods on tooling node group
+        alertmanager:
+          alertmanagerSpec:
+            tolerations:
+              - key: "dedicated"
+                operator: "Equal"
+                value: "tooling"
+                effect: "NoSchedule"
+              - key: "kubernetes.azure.com/scalesetpriority"
+                operator: "Equal"
+                value: "spot"
+                effect: "NoSchedule"
+            affinity:
+              nodeAffinity:
+                requiredDuringSchedulingIgnoredDuringExecution:
+                  nodeSelectorTerms:
+                    - matchExpressions:
+                        - key: dedicated
+                          operator: In
+                          values:
+                            - tooling
+
+
+        prometheusOperator:
+          tolerations:
+            - key: "dedicated"
+              operator: "Equal"
+              value: "tooling"
+              effect: "NoSchedule"
+            - key: "kubernetes.azure.com/scalesetpriority"
+              operator: "Equal"
+              value: "spot"
+              effect: "NoSchedule"
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: dedicated
+                        operator: In
+                        values:
+                          - tooling
+
+        prometheus:
+          prometheusSpec:
+            affinity:
+              nodeAffinity:
+                requiredDuringSchedulingIgnoredDuringExecution:
+                  nodeSelectorTerms:
+                    - matchExpressions:
+                        - key: dedicated
+                          operator: In
+                          values:
+                            - tooling
+            tolerations:
+              - key: "dedicated"
+                operator: "Equal"
+                value: "tooling"
+                effect: "NoSchedule"
+              - key: "kubernetes.azure.com/scalesetpriority"
+                operator: "Equal"
+                value: "spot"
+                effect: "NoSchedule"
+
+
+        kubeControllerManager:
+          enabled: false
+        kubeEtcd:
+          enabled: false
+        kubeScheduler:
+          enabled: false
+        kubeProxy:
+          enabled: false
+
+
+  - name: "loki"
+    namespace: "monitoring"
+    chart: "grafana/loki-stack"
+    version: "2.9.11"
+    values:
+      - loki:
+          isDefault: false
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: dedicated
+                        operator: In
+                        values:
+                          - tooling
+          tolerations:
+            - key: "dedicated"
+              operator: "Equal"
+              value: "tooling"
+              effect: "NoSchedule"
+            - key: "kubernetes.azure.com/scalesetpriority"
+              operator: "Equal"
+              value: "spot"
+              effect: "NoSchedule"
+
+        promtail:
+          tolerations:
+            - key: "kubernetes.azure.com/scalesetpriority"
+              operator: "Equal"
+              value: "spot"
+              effect: "NoSchedule"
+            - key: node-role.kubernetes.io/master
+              operator: Exists
+              effect: NoSchedule
+            - key: node-role.kubernetes.io/control-plane
+              operator: Exists
+              effect: NoSchedule
+            - key: "dedicated"
+              operator: "Equal"
+              value: "tooling"
+              effect: "NoSchedule"
+
+
+
+
