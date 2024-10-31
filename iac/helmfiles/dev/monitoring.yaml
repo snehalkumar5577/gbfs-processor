@@ -27,7 +27,7 @@ releases:
             server:
               root_url: http://localhost:3000/grafana
           ingress:
-            enabled: false
+            enabled: true
             hosts:
               - dev-gbfs-dashboards.northeurope.cloudapp.azure.com
             path: /grafana/?(.*)
