@@ -1,4 +1,4 @@
-nameOverride: "frontend"
+fullnameOverride: "frontend"
 
 ingress:
   enabled: true
