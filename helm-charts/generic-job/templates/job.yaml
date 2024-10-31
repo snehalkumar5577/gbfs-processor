@@ -1,22 +1,28 @@
 apiVersion: batch/v1
-kind: Job
+kind: CronJob
 metadata:
-  name: {{ include "generic-job.fullname" . }}-job
+  name: {{ include "generic-job.fullname" . }}-cronjob
   labels:
     {{- include "generic-job.labels" . | nindent 4 }}
 spec:
-  template:
-    metadata:
-      labels:
-        {{- include "generic-job.labels" . | nindent 8 }}
+  schedule: "{{ .Values.schedule }}"  # Schedule for the CronJob
+  jobTemplate:
     spec:
-      containers:
-        - name: {{ .Chart.Name }}-job-container
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          env:
-            {{- toYaml .Values.env | nindent 12 }}
-          {{- with .Values.resources }}
-          resources:
-            {{- toYaml . | nindent 10 }}
-          {{- end }}
-      restartPolicy: {{ .Values.restartPolicy }}
+      template:
+        metadata:
+          labels:
+            {{- include "generic-job.labels" . | nindent 8 }}
+        spec:
+          containers:
+            - name: {{ .Chart.Name }}-job-container
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+              env:
+                {{- range .Values.env }}
+                - name: {{ .name }}
+                  value: {{ .value | quote }}
+                {{- end }}
+              {{- with .Values.resources }}
+              resources:
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
+          restartPolicy: {{ .Values.restartPolicy }}
