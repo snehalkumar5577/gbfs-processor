@@ -1,4 +1,4 @@
-fullnameOverride: "collector"
+nameOverride: "collector"
 
 schedule: "*/15 * * * *"  # Schedule: every 15 minutes
 

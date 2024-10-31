@@ -1,4 +1,4 @@
-fullnameOverride: "frontend"
+nameOverride: "frontend"
 
 ingress:
   enabled: true
@@ -10,7 +10,7 @@ ingress:
   hosts:
     - host: dev-gbfs-dashboards.northeurope.cloudapp.azure.com
       paths:
-        - path: /?(.*)
+        - path: /
           pathType: ImplementationSpecific
 
 env:

@@ -1,4 +1,4 @@
-fullnameOverride: "api-server"
+nameOverride: "api-server"
 
 livenessProbe:
   httpGet:
