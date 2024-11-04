@@ -9,3 +9,12 @@
 **/.terragrunt-cache
 backend.tf
 provider.tf
+
+# python
+**/*.pyc
+**/*.pyo
+**/*.pyd
+**/__pycache__/
+**/.pytest_cache/
+**/.mypy_cache/
+**/venv/
