@@ -1,8 +1,8 @@
 from pydantic import BaseModel
 from datetime import datetime
-from typing import Any, Dict
 
 class StationData(BaseModel):
     provider: str
-    data: Dict[str, Any]
+    station_id: str
     timestamp: datetime
+    available_bikes: int

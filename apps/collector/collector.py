@@ -16,14 +16,25 @@ def main():
     for provider, url in config.PROVIDERS.items():
         log.info(f"Fetching data for provider: {provider}")
         station_info = extract_station_info(provider, url)
-        if station_info:
+        
+        if station_info is None:
+            log.error(f"Failed to fetch data for provider: {provider}")
+            continue
+
+        stations = station_info.get("data", {}).get("stations", [])
+
+        for station in stations:
             station_data = StationData(
                 provider=provider,
-                data=station_info,
-                timestamp=datetime.now(timezone.utc)
+                station_id=station["station_id"],
+                timestamp=datetime.now(timezone.utc),
+                available_bikes=station["num_bikes_available"]
             )
-            mongo_client.insert_data(station_data.dict())
+            mongo_client.insert_data(station_data.model_dump())
+        
 
     log.info("Data collection completed")
+
+
 if __name__ == "__main__":
     main()

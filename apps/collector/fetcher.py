@@ -15,6 +15,7 @@ def fetch_data(url: str) -> Optional[Dict[str, Any]]:
         log.error(f"Error fetching data from {url}: {e}")
         return None
 
+
 def get_station_info_url(feeds: list) -> Optional[str]:
     """Extract the station info URL from the feeds."""
     for feed in feeds:
@@ -43,4 +44,5 @@ def extract_station_info(provider_name: str, provider_url: str) -> Optional[Dict
         return None
 
     log.info(f"Station info fetched for provider: {provider_name}")
+
     return station_info

@@ -14,7 +14,7 @@ const Dashboard = () => {
     const fetchData = async () => {
       try {
         console.log("process.env.REACT_APP_BACKEND_API_URL", process.env.REACT_APP_BACKEND_API_URL);
-        const response = await axios.get('/api/stations/summary');
+        const response = await axios.get('/api/providers/summary');
         setBikeData(response.data);
         setLoading(false);
       } catch (error) {
@@ -30,7 +30,7 @@ const Dashboard = () => {
     datasets: [
       {
         label: "Available Bikes",
-        data: bikeData.map((item) => item.total_bikes),
+        data: bikeData.map((item) => item.available_bikes),
         backgroundColor: "rgba(75, 192, 192, 0.6)",
         borderColor: "rgba(75, 192, 192, 1)",
         borderWidth: 1,
