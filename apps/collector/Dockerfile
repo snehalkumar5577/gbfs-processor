@@ -15,5 +15,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the collector code into the container
 COPY . .
 
+# Specify python path
+ENV PYTHONPATH=/app
+
 # Command to run the collector script
-CMD ["python", "collector.py"]
+CMD ["python", "collector/collector.py"]

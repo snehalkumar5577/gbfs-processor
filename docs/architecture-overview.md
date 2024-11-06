@@ -92,10 +92,28 @@
 
 ## Considerations for Future Enhancements
 
-- **Alerts**: Implementing alerting mechanisms for anomalies in bike-sharing statistics.
-- **Configurability**: Allowing users to configure different GBFS providers dynamically.
+### Observability
+- **Alerts**: Implementing alerting mechanisms for anomalies in bike-sharing statistics. Integrate it with slack
+- **Logging**: Configure persistance for log storage. Explore cheaper blob storage kind of options to store logs.
+- **Health Endpoints**: Create health and readiness endpoints
+
+### Business features
 - **Enhanced Dashbaords**: Enhanced dashboards with more features like historical data and trend.
+
+### Config and secrets management
+- **Configurability**: Allowing users to configure different GBFS providers dynamically.
 - **Secrets Manager**: Implement secret manager to hold secrets required for apps. For example - DB creds. One option could be azure keyvault.
-- **Persistant storage**: Implement persistant storage for database running on kubernetes.
+
+### Security
+- **TLS**: Setup TLS termination at ingress and have redirect rule to serve only on 443
+- **Static code analysis**: Setup static code analysis in CI pipeline
+- **Container security scanning**: Setup container security scaning at pipeline level or at container repo level.
+- **Runtime security monitoring**: Setup tools like falco to actively monitor security threats
+
+### CICD
 - **GitOps**: Implement gitops for shipping changes seemlessly on all environments.
+- **UnitTests**: Write unit tests. Show test reports on pipeline.
+
+### Other
+- **Persistant storage**: Implement persistant storage for mongodb running on kubernetes.
 

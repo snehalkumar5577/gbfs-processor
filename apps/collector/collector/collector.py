@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 import database as db
-import config as conf
+from config import config as conf
 import logger
 from fetcher import extract_station_info
 from models import StationData

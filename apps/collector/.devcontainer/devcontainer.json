@@ -28,5 +28,8 @@
 	// "remoteUser": "root"
 	"runArgs": [
 		"--network=gbfs-processor_app-network"
-	]
+	],
+	"containerEnv": {
+		"PYTHONPATH": "."
+	}
 }
