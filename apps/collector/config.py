@@ -20,7 +20,7 @@ class ProductionConfig(Config):
     LOG_LEVEL: str = "INFO"
 
 def get_config() -> Type[Config]:
-    environment = os.getenv("ENVIRONMENT", "production").lower()
+    environment = os.getenv("ENVIRONMENT", "prod").lower()
     if environment == "dev":
         return DevelopmentConfig
     return ProductionConfig

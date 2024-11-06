@@ -1,27 +1,12 @@
 from fastapi import FastAPI
-from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel
 from typing import List
 from fastapi.middleware.cors import CORSMiddleware
-import os
-
-
-# MongoDB connection
-MONGODB_HOST = os.getenv("MONGODB_HOST", "mongo")
-MONGODB_PORT = "27017"
-MONGODB_DB_NAME = "gbfs_database"
-COLLECTION_NAME = "gbfs_collection"
-MONGODB_USER = os.getenv("MONGODB_USERNAME", "root")
-MONGODB_PASSWORD = os.getenv("MONGODB_PASSWORD", "password")
-
-MONGODB_URI = f"mongodb://{MONGODB_USER}:{MONGODB_PASSWORD}@{MONGODB_HOST}:{MONGODB_PORT}/{MONGODB_DB_NAME}?authSource=admin"
-
+import database
 
 # Initialize FastAPI and MongoDB client
 app = FastAPI()
-client = AsyncIOMotorClient(MONGODB_URI)
-db = client[MONGODB_DB_NAME]
-collection = db[COLLECTION_NAME]
+client = database.get_mongo_client()
 
 # Pydantic Model for the response
 class ProviderSummary(BaseModel):
@@ -44,7 +29,8 @@ async def get_bike_summary():
     pipeline = [
         {"$group": {"_id": "$provider", "total_bikes": {"$sum": "$num_bikes_available"}}}
     ]
-    summary = await collection.aggregate(pipeline).to_list(100)
+    summary = await client.collection.aggregate(pipeline).to_list(100)
+    
     return [{"provider": item["_id"], "total_bikes": item["total_bikes"]} for item in summary]
 
 # Health check endpoint
