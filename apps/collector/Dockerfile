@@ -19,4 +19,4 @@ COPY . .
 ENV PYTHONPATH=/app
 
 # Command to run the collector script
-CMD ["python", "collector/collector.py"]
+CMD ["python", "run_collector.py"]

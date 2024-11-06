@@ -1,6 +1,10 @@
 import requests
 from typing import Optional, Dict, Any
-import logger
+from . import logger
+from . import models
+from datetime import datetime, timezone
+from . import database as db
+from config import config as conf
 
 log = logger.get_logger()
 
@@ -46,3 +50,22 @@ def extract_station_info(provider_name: str, provider_url: str) -> Optional[Dict
     log.info(f"Station info fetched for provider: {provider_name}")
 
     return station_info
+
+def fetch_and_store_data(provider: str, url: str):
+    log.info(f"Fetching data for provider: {provider}")
+    station_info = extract_station_info(provider, url)
+    
+    if station_info is None:
+        log.error(f"Failed to fetch data for provider: {provider}")
+        return
+
+    stations = station_info.get("data", {}).get("stations", [])
+
+    for station in stations:
+        station_data = models.StationData(
+            provider=provider,
+            station_id=station["station_id"],
+            timestamp=datetime.now(timezone.utc),
+            available_bikes=station["num_bikes_available"]
+        )
+        db.get_mongo_client(conf.get_config()).insert_data(station_data.model_dump())

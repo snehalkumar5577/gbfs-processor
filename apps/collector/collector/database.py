@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 from typing import Dict, Any
 from config import config as conf
-import logger
+from . import logger
 
 log = logger.get_logger()
 
