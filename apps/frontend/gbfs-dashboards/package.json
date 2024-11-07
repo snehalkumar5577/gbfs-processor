@@ -7,12 +7,15 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.7",
-    "chart.js": "^4.4.5",
+    "chart.js": "^4.4.6",
     "cors": "^2.8.5",
+    "date-fns": "^4.1.0",
     "react": "^18.3.1",
     "react-chartjs-2": "^5.2.0",
+    "react-datepicker": "^7.5.0",
     "react-dom": "^18.3.1",
     "react-scripts": "5.0.1",
+    "react-select": "^5.8.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -38,5 +41,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://api-server:80"
 }
