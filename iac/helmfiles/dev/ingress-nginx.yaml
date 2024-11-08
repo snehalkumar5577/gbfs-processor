@@ -19,3 +19,5 @@ releases:
             annotations:
               service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
             externalTrafficPolicy: Local
+            loadBalancerSourceRanges:
+              - "49.248.27.91/32"
