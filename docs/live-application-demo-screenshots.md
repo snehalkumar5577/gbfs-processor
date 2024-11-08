@@ -1,6 +1,6 @@
 ## Frontend screenshot
 
-![alt text](<frontend.png>)
+![alt text](frontend-v2.png)
 
 ## Pipelines screenshot
 
